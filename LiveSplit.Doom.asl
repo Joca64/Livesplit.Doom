@@ -1,6 +1,6 @@
 //gamestate - 0: playing level, 1: intermission, 2: episode/game end screen, 3: menu
 
-state("glboom-plus")
+state("glboom-plus", "v2.5.1.3")
 {
 	int gameState : "glboom-plus.exe", 0x18F210;
 	int demoPlaying : "glboom-plus.exe", 0x22332C;
@@ -10,9 +10,25 @@ state("glboom-plus")
 	int wipeInProgress : "glboom-plus.exe", 0x1B9F44;
 }
 
+state("glboom-plus", "v2.5.1.4")
+{
+	int gameState : "glboom-plus.exe", 0x180BC0;
+	int demoPlaying : "glboom-plus.exe", 0x215798;
+	int playerHealth : "glboom-plus.exe", 0x1B9180;
+	int onMenu : "glboom-plus.exe", 0x215818;
+	int paused : "glboom-plus.exe", 0x214B58;
+	int wipeInProgress : "glboom-plus.exe", 0x1ACE20;
+}
+
 init
 {
 	vars.timerRunning = 0;
+
+	if (modules.First().ModuleMemorySize == 0x2320000)
+        	version = "v2.5.1.3";
+	else if (modules.First().ModuleMemorySize == 0x284000)
+        	version = "v2.5.1.4";
+
 }
 
 
