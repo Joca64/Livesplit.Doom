@@ -21,10 +21,13 @@ state("glboom-plus", "v2.5.1.4")
 init
 {
 
-	if (modules.First().ModuleMemorySize == 0x2320000)
-        	version = "v2.5.1.3";
-	else if (modules.First().ModuleMemorySize == 0x284000)
-        	version = "v2.5.1.4";
+    	switch(modules.First().ModuleMemorySize)
+    	{
+      	  case 0x2320000: version = "v2.5.1.3"; break;
+      	  case 0x284000: version = "v2.5.1.4"; break;
+	
+     	   default: version = "UNDETECTED"; break;
+    	}
 
 	vars.timerRunning = 0;
 	vars.splitsCurrent = 0;
@@ -63,6 +66,8 @@ update
 	if(current.map != 1 && current.gameState == 0)
 		vars.splitsTotal = vars.splitsTemp + current.levelTime / 35;
 	
+    if(version.Contains("UNDETECTED"))
+        return false;
 }
 
 gameTime
